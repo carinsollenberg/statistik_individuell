@@ -31,7 +31,7 @@ let pressureComparison = await dbQuery(`
 
 addMdToPage(`### Stress och prestation`);
 
-// 🔥 AUTOMATISK ANALYS
+// AUTOMATISK ANALYS
 let dep = pressureComparison.find(r => r.status === 'Deprimerad');
 let non = pressureComparison.find(r => r.status === 'Ej deprimerad');
 
@@ -82,7 +82,7 @@ sleepData = sleepData.map(r => ({
   timmar: sleepToNumber(r.kategori)
 }));
 
-// 🔥 ANALYS
+// ANALYS
 let sortedSleep = [...sleepData].sort((a, b) => b.procent - a.procent);
 let worst = sortedSleep[0];
 let best = sortedSleep[sortedSleep.length - 1];
@@ -121,7 +121,7 @@ let cgpaData = await dbQuery(`
   ORDER BY cgpa
 `);
 
-// 🔥 TREND-ANALYS
+// TREND-ANALYS
 let first = cgpaData[0];
 let last = cgpaData[cgpaData.length - 1];
 

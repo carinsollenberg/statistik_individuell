@@ -26,7 +26,7 @@ let familyHistory = await dbQuery(`
 
 addMdToPage(`### Familjehistorik av psykfall`);
 
-// 🔥 ANALYS
+// ANALYS
 let sortedFamily = [...familyHistory].sort((a, b) => b.procent - a.procent);
 let highestF = sortedFamily[0];
 let lowestF = sortedFamily[sortedFamily.length - 1];
@@ -68,7 +68,7 @@ let dietData = await dbQuery(`
 
 addMdToPage(`### Kostvanor och depression`);
 
-// 🔥 ANALYS
+// ANALYS
 let sortedDiet = [...dietData].sort((a, b) => b.procent - a.procent);
 let worstDiet = sortedDiet[0];
 let bestDiet = sortedDiet[sortedDiet.length - 1];
@@ -115,7 +115,7 @@ suicidalData = suicidalData.map(row => ({
 
 addMdToPage(`### Självmordstankar och depression`);
 
-// 🔥 ANALYS
+// ANALYS
 let yesGroup = suicidalData.find(r => r.kod === 1);
 let noGroup = suicidalData.find(r => r.kod === 0);
 

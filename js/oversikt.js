@@ -148,7 +148,7 @@ drawGoogleChart({
       '#E06C9F'   // accent
     ],
 
-    pieHole: 0.4, // 🔥 gör den modern (donut istället för gammal pie)
+    pieHole: 0.4, // donut-chart
 
     pieSliceTextStyle: {
       color: '#ffffff',
