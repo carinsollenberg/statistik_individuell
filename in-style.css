@@ -1,51 +1,228 @@
+/* ── Unified Happy Dashboard Theme ───────────────────────────── */
+
+/* Font */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+
+/* ── Theme ── */
+:root {
+  --bg-main: #FFF8FA;
+  --bg-card: #ffffff;
+  --bg-soft: #FDECEF;
+
+  --primary: #0E103D;
+
+  --accent: #E06C9F;
+  --accent-strong: #8E3A8C;
+  --accent-teal: #2EC4B6;
+
+  --text-main: #0E103D;
+  --text-muted: #7A6570;
+  --text-dim: #B497A1;
+
+  --border: #F3DDE3;
+
+  --radius: 14px;
+  --shadow: 0 8px 22px rgba(224, 108, 159, 0.08);
+}
+
+/* ── Base ── */
 body {
-  font-size: 18px !important;
-  background-color: #FFEBEE !important;
+  background: var(--bg-main);
+  color: var(--text-main);
+  font-family: 'Inter', sans-serif;
+  padding-top: 70px;
 }
 
-body.bigBottomPad {
-  padding-bottom: 2000px;
+/* ── Navbar ── */
+body .navbar,
+body .navbar.bg-light,
+body .navbar.navbar-light {
+  background: linear-gradient(90deg, #0E103D, #2a2d6d) !important;
+  border-bottom: 3px solid var(--accent) !important;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.15);
 }
 
-body.with-menu {
-  margin-top: 90px !important;
+body .navbar .nav-link::after {
+  display: none !important;
 }
 
-p,
-pre {
-  line-height: 150%;
+body .navbar .nav-link {
+  color: rgba(255, 255, 255, 0.7) !important;
+  font-weight: 500;
+  transition: color 0.2s ease;
 }
 
-.right {
-  text-align: right;
+body .navbar .nav-link:hover,
+body .navbar .nav-link.active {
+  color: var(--accent) !important;
 }
 
-h1,
-h2,
-h3,
-h4,
-h5,
-h6 {
-  margin-bottom: 3px;
-  margin-top: 20px !important;
+body .navbar .navbar-brand {
+  color: #ffffff !important;
+  font-weight: 700;
 }
 
-p {
+body .navbar .navbar-brand:hover {
+  color: var(--accent) !important;
+}
+
+/* ── Layout ── */
+.container,
+.container-fluid {
+  padding-top: 10px;
+}
+
+/* ── Cards ── */
+.card,
+.stat-card,
+table {
+  background: var(--bg-card);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+  border: 1px solid var(--border);
+  margin: 1.2rem 0 1.8rem;
+  transition: all 0.2s ease;
+  overflow: hidden;
+  /* 🔥 fixar att charts inte "läcker ut" */
+}
+
+.card:hover,
+.stat-card:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 12px 26px rgba(224, 108, 159, 0.12);
+}
+
+/* ── Stats ── */
+.stat-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+  gap: 16px;
+  margin: 1.5rem 0 2rem;
+}
+
+.stat-card {
+  padding: 18px;
+}
+
+.stat-label {
+  font-size: 0.7rem;
+  color: var(--text-dim);
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+}
+
+.stat-value {
+  font-size: 1.9rem;
+  font-weight: 700;
+}
+
+.stat-card.accent .stat-value {
+  color: var(--accent);
+}
+
+/* ── Tables ── */
+table {
+  border-collapse: separate !important;
+  overflow: hidden;
+}
+
+thead th {
+  background: var(--bg-soft) !important;
+  color: var(--accent-strong) !important;
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  padding: 14px 18px !important;
+}
+
+tbody td {
+  padding: 14px 18px !important;
+  line-height: 1.6;
+}
+
+tbody tr:hover {
+  background: #FFF0F4 !important;
+}
+
+/* ── Typography ── */
+body h1,
+body .h1 {
+  font-size: 2.3rem !important;
+  font-weight: 800 !important;
+  margin: 3rem 0 1rem;
+  color: var(--primary) !important;
+}
+
+body h2,
+body .h2 {
+  font-size: 1.7rem !important;
+  font-weight: 700 !important;
+  margin: 2.5rem 0 0.8rem;
+}
+
+body h3,
+body .h3 {
+  font-size: 1.25rem !important;
+  font-weight: 600 !important;
+  margin: 2rem 0 0.6rem;
+  color: var(--accent) !important;
+}
+
+body h4,
+body .h4 {
+  font-size: 1rem !important;
+  font-weight: 500 !important;
+  margin: 1.5rem 0;
+  color: var(--text-muted) !important;
+}
+
+h1:first-child,
+h2:first-child,
+h3:first-child {
   margin-top: 0;
 }
 
-main {
-  padding-bottom: 30px;
+p {
+  margin-bottom: 1rem;
 }
 
-td.right:nth-child(1) {
-  width: 1px;
+/* ── Badges ── */
+.badge-accent {
+  background: #FDECEF;
+  color: var(--accent-strong);
+  border-radius: 999px;
 }
 
-table {
-  border: 1px solid #000;
+.badge-success {
+  background: #E6F7F5;
+  color: var(--accent-teal);
+  border-radius: 999px;
 }
 
-label.dropdown+label.dropdown {
-  margin-top: -20px !important;
+/* ── Divider ── */
+hr {
+  border: none;
+  height: 1px;
+  background: var(--border);
+  margin: 2.5rem 0;
+}
+
+/* ── Charts FIX ───────────────────────────── */
+
+/* 🔥 Neutralisera Google Charts wrapper (utan att påverka allt annat) */
+.card>div[style*="position: relative"] {
+  background: transparent !important;
+  border: none !important;
+  box-shadow: none !important;
+  padding: 0 !important;
+  margin: 0 !important;
+}
+
+/* 🔥 Säker spacing runt graf */
+.chart-container {
+  padding: 16px;
+}
+
+/* 🔥 Gör att canvas/svg fyller snyggt */
+.chart-container>div {
+  width: 100% !important;
 }

@@ -15,8 +15,6 @@ function sleepToNumber(sleepStr) {
 addMdToPage(`
 ## Statistiktester
 
-### Är datan normalfördelad?
-
 Vi undersöker om CGPA och akademisk press är normalfördelade med hjälp av
 medelvärde, median och standardavvikelse via Simple Statistics.
 `);

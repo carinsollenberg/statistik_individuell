@@ -1,39 +1,76 @@
 dbQuery.use('student_depression');
 
+/* ── Intro ───────────────────────────────────────── */
+
 addMdToPage(`
-## Studenters psykdom - dataanalys
+## Studenters psykiska hälsa – en dataanalys
 
-Datasetet innehåller information om **27 901 studenter** och hur de skattat faktorer
-som akademisk press, sömn, kost och ekonomisk stress – och huruvida studenterna
-har en depression.
-
-Vi börjar med en överblick av vad datasetet innehåller.
+Det här datasetet innehåller information om **27 901 studenter** och mäter faktorer
+som akademisk press, sömnvanor, kost och ekonomisk stress – och om studenterna
+lider av depression.
 `);
 
-// ── Övergripande statistik ─────────────────────────────────────────
+/* ── Nyckeltal ───────────────────────────────────── */
 
 let stats = await dbQuery(`
   SELECT
-    COUNT(*)                                                        AS antal_studenter,
-    ROUND(AVG(CAST(Age AS REAL)), 1)                                AS medelalder,
-    ROUND(AVG(CAST(CGPA AS REAL)), 2)                               AS medel_cgpa,
-    ROUND(AVG(CAST([Academic Pressure] AS REAL)), 2)                AS medel_akademisk_press,
-    ROUND(AVG(CAST([Financial Stress] AS REAL)), 2)                 AS medel_ekonomisk_stress,
-    ROUND(AVG(CAST([Work/Study Hours] AS REAL)), 2)                 AS medel_studietimmar,
-    SUM(CAST(Depression AS INTEGER))                                AS antal_deprimerade,
-    ROUND(100.0 * SUM(CAST(Depression AS INTEGER)) / COUNT(*), 1)   AS depression_procent
+    COUNT(*) AS antal,
+    ROUND(AVG(CAST(Age AS REAL)), 1) AS medelalder,
+    ROUND(AVG(CAST(CGPA AS REAL)), 2) AS medel_cgpa,
+    ROUND(AVG(CAST([Academic Pressure] AS REAL)), 2) AS medel_press,
+    ROUND(AVG(CAST([Financial Stress] AS REAL)), 2) AS medel_stress,
+    SUM(CAST(Depression AS INTEGER)) AS deprimerade,
+    ROUND(100.0 * SUM(CAST(Depression AS INTEGER)) / COUNT(*), 1) AS dep_procent
   FROM students
 `);
 
-addMdToPage(`### Nyckeltal`);
-tableFromData({ data: stats });
+let r = stats[0];
 
-addMdToPage(`
-Det är alltså fler som är deprimerade än som mår bra. Skumt. Eller är det bara samtiden? Den frågan får vi inte svar på tyvärr. Men några andra saker kan vi kolla.
+/* ── Stat cards ─────────────────────────────────── */
+
+addToPage(`
+  <div class="stat-grid">
+    <div class="stat-card">
+      <p class="stat-label">Studenter</p>
+      <p class="stat-value">${r.antal.toLocaleString('sv-SE')}</p>
+      <p class="stat-sub">i datasetet</p>
+    </div>
+
+    <div class="stat-card accent">
+      <p class="stat-label">Depression</p>
+      <p class="stat-value">${r.dep_procent}%</p>
+      <p class="stat-sub">${r.deprimerade.toLocaleString('sv-SE')} studenter</p>
+    </div>
+
+    <div class="stat-card">
+      <p class="stat-label">Medelålder</p>
+      <p class="stat-value">${r.medelalder}</p>
+      <p class="stat-sub">år</p>
+    </div>
+
+    <div class="stat-card">
+      <p class="stat-label">Medel-CGPA</p>
+      <p class="stat-value">${r.medel_cgpa}</p>
+      <p class="stat-sub">av 10.0</p>
+    </div>
+
+    <div class="stat-card">
+      <p class="stat-label">Akademisk press</p>
+      <p class="stat-value">${r.medel_press}</p>
+      <p class="stat-sub">skala 1–5</p>
+    </div>
+
+    <div class="stat-card">
+      <p class="stat-label">Ekonomisk stress</p>
+      <p class="stat-value">${r.medel_stress}</p>
+      <p class="stat-sub">skala 1–5</p>
+    </div>
+  </div>
 `);
 
+/* ── Depressionsfördelning ───────────────────────── */
 
-// ── Depressionsfördelning – piechart ─────────────────────────────────────
+addMdToPage(`### Andel deprimerade studenter`);
 
 let depressionSplit = await dbQuery(`
   SELECT
@@ -47,14 +84,19 @@ drawGoogleChart({
   type: 'PieChart',
   data: makeChartFriendly(depressionSplit),
   options: {
-    height: 400,
+    height: 320,
+    backgroundColor: 'transparent',
+    legend: { textStyle: { color: '#7A6570', fontName: 'Inter' } },
+    titleTextStyle: { color: '#0E103D', fontName: 'Inter', fontSize: 16 },
     title: 'Andel deprimerade studenter',
     chartArea: { left: 20, right: 20, top: 40, bottom: 20 },
-    colors: ['#E8593C', '#3B8BD4']
+    colors: ['#E06C9F', '#2EC4B6']
   }
 });
 
-// ── Könsfördelning ─────────────────────────────────────────────────────────
+/* ── Könsfördelning ───────────────────────────── */
+
+addMdToPage(`### Könsfördelning`);
 
 let genderSplit = await dbQuery(`
   SELECT Gender AS kön, COUNT(*) AS antal
@@ -63,15 +105,16 @@ let genderSplit = await dbQuery(`
   ORDER BY antal DESC
 `);
 
-addMdToPage(`### Könsfördelning i datasetet`);
-
 drawGoogleChart({
   type: 'PieChart',
   data: makeChartFriendly(genderSplit),
   options: {
-    height: 350,
+    height: 320,
+    backgroundColor: 'transparent',
+    legend: { textStyle: { color: '#7A6570', fontName: 'Inter' } },
+    titleTextStyle: { color: '#0E103D', fontName: 'Inter', fontSize: 16 },
     title: 'Könsfördelning',
     chartArea: { left: 20, right: 20 },
-    colors: ['#534AB7', '#F0997B']
+    colors: ['#8E3A8C', '#F4A261']
   }
 });
