@@ -88,11 +88,16 @@ drawGoogleChart({
     backgroundColor: 'transparent',
     legend: { textStyle: { color: '#7A6570', fontName: 'Inter' } },
     titleTextStyle: { color: '#0E103D', fontName: 'Inter', fontSize: 16 },
-    title: 'Andel deprimerade studenter',
+    title: 'Procent deppiga vs glada',
     chartArea: { left: 20, right: 20, top: 40, bottom: 20 },
     colors: ['#E06C9F', '#2EC4B6']
   }
 });
+
+addMdToPage(`
+
+Det var en väldigt hög andel studenter som var deprimerade. Det vill jag verkligen rekommendera att de gör något åt på skolan. Eller så är det bara samtiden. Men den är svårare att ändra på.
+`);
 
 /* ── Könsfördelning ───────────────────────────── */
 
@@ -111,10 +116,49 @@ drawGoogleChart({
   options: {
     height: 320,
     backgroundColor: 'transparent',
-    legend: { textStyle: { color: '#7A6570', fontName: 'Inter' } },
-    titleTextStyle: { color: '#0E103D', fontName: 'Inter', fontSize: 16 },
-    title: 'Könsfördelning',
-    chartArea: { left: 20, right: 20 },
-    colors: ['#8E3A8C', '#F4A261']
+
+    title: 'Män vs kvinnor i datasetet',
+    fontName: 'Inter',
+
+    titleTextStyle: {
+      color: '#0E103D',
+      fontSize: 16,
+      bold: true
+    },
+
+    legend: {
+      position: 'right',
+      textStyle: {
+        color: '#7A6570',
+        fontSize: 12
+      }
+    },
+
+    chartArea: {
+      left: 20,
+      right: 20,
+      top: 50,
+      bottom: 20,
+      width: '85%',
+      height: '75%'
+    },
+
+    colors: [
+      '#8E3A8C',  // accent-strong
+      '#E06C9F'   // accent
+    ],
+
+    pieHole: 0.4, // 🔥 gör den modern (donut istället för gammal pie)
+
+    pieSliceTextStyle: {
+      color: '#ffffff',
+      fontSize: 12
+    },
+
+    tooltip: {
+      textStyle: {
+        fontName: 'Inter'
+      }
+    }
   }
 });
