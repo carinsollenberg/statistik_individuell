@@ -9,7 +9,7 @@ function yesNoToNumber(val) {
 addMdToPage(`
 ## Riskfaktorer för depression
 
-Vilka faktorer verkar ha störst påverkan? Vi tittar på familjehistorik,
+Vilka faktorer har störst påverkan? Vi tittar nu på familjehistorik,
 kostvanor och självmordstankar.
 `);
 
@@ -25,7 +25,7 @@ let familyHistory = await dbQuery(`
   GROUP BY familjehistorik
 `);
 
-addMdToPage(`### Familjehistorik av psykisk ohälsa`);
+addMdToPage(`### Familjehistorik av psykfall`);
 tableFromData({ data: familyHistory });
 
 drawGoogleChart({

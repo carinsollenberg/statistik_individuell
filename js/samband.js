@@ -52,8 +52,8 @@ drawGoogleChart({
 addMdToPage(`
 ### Sömnlängd och depression
 
-*Sleep Duration* är ursprungligen en textkolumn. Vi omvandlar den till numeriska
-medelvärden (t.ex. "5-6 hours" → 5.5 h) för att kunna räkna på den.
+*Sleep Duration* är en textkolumn i rådadan. Jag gör om den till numeriska
+medelvärden för att kunna räkna på den.
 `);
 
 let sleepData = await dbQuery(`
@@ -82,7 +82,7 @@ drawGoogleChart({
   }))),
   options: {
     height: 400,
-    title: 'Andel deprimerade per sömnkategori (%)',
+    title: 'Andel deprimerade per sovtimmar (%)',
     chartArea: { left: 180, right: 30 },
     colors: ['#E8593C']
   }

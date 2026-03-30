@@ -1,16 +1,16 @@
 dbQuery.use('student_depression');
 
 addMdToPage(`
-## Studenters psykiska hälsa – en dataanalys
+## Studenters psykdom - dataanalys
 
-Det här datasetet innehåller information om **27 901 studenter** och mäter faktorer
-som akademisk press, sömnvanor, kost och ekonomisk stress – och om studenterna
-lider av depression.
+Datasetet innehåller information om **27 901 studenter** och hur de skattat faktorer
+som akademisk press, sömn, kost och ekonomisk stress – och huruvida studenterna
+har en depression.
 
-Vi börjar med en övergripande bild av datasetet.
+Vi börjar med en överblick av vad datasetet innehåller.
 `);
 
-// ── Övergripande statistik via SQL ─────────────────────────────────────────
+// ── Övergripande statistik ─────────────────────────────────────────
 
 let stats = await dbQuery(`
   SELECT
@@ -28,7 +28,7 @@ let stats = await dbQuery(`
 addMdToPage(`### Nyckeltal`);
 tableFromData({ data: stats });
 
-// ── Depressionsfördelning – pajdiagram ─────────────────────────────────────
+// ── Depressionsfördelning – piechart ─────────────────────────────────────
 
 let depressionSplit = await dbQuery(`
   SELECT
