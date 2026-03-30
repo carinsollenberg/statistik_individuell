@@ -28,6 +28,11 @@ let stats = await dbQuery(`
 addMdToPage(`### Nyckeltal`);
 tableFromData({ data: stats });
 
+addMdToPage(`
+Det är alltså fler som är deprimerade än som mår bra. Skumt. Eller är det bara samtiden? Den frågan får vi inte svar på tyvärr. Men några andra saker kan vi kolla.
+`);
+
+
 // ── Depressionsfördelning – piechart ─────────────────────────────────────
 
 let depressionSplit = await dbQuery(`
