@@ -1,6 +1,6 @@
 dbQuery.use('student_depression');
 
-// Hjälpfunktion: omvandla Sleep Duration-text till numeriskt medelvärde
+// Hjälpfunktion: Göra om Sleep Duration-text till numeriskt medelvärde
 function sleepToNumber(sleepStr) {
   if (!sleepStr) return null;
   const s = sleepStr.replace(/'/g, '').trim().toLowerCase();
@@ -12,10 +12,10 @@ function sleepToNumber(sleepStr) {
 }
 
 addMdToPage(`
-## Samband mellan faktorer och depression
+## Samband mellan olika faktorer och depression
 
-Nedan undersöker vi om det finns mätbara samband mellan depression och olika
-livsfaktorer. Vi jämför medelvärden för deprimerade vs ej deprimerade studenter.
+Finns mätbara samband mellan depression och olika
+livsfaktorer? Jämförelse av medelvärden för deprimerade vs ej deprimerade studenter.
 `);
 
 // ── Akademisk press och stress – deprimerade vs ej deprimerade ─────────────
