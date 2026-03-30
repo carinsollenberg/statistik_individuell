@@ -5,15 +5,15 @@ dbQuery.use('student_depression');
 function sleepToNumber(sleepStr) {
   if (!sleepStr) return null;
   const str = sleepStr.replace(/'/g, '').trim().toLowerCase();
-  if (str.includes('less than 5'))  return 4;
-  if (str.includes('5-6'))          return 5.5;
-  if (str.includes('7-8'))          return 7.5;
-  if (str.includes('more than 8'))  return 9;
+  if (str.includes('less than 5')) return 4;
+  if (str.includes('5-6')) return 5.5;
+  if (str.includes('7-8')) return 7.5;
+  if (str.includes('more than 8')) return 9;
   return null;
 }
 
 addMdToPage(`
-## Statistiska tester (VG-nivå)
+## Statistiktester
 
 ### Är datan normalfördelad?
 
@@ -34,12 +34,12 @@ let rawData = await dbQuery(`
   WHERE CGPA != '' AND [Academic Pressure] != ''
 `);
 
-let cgpaList  = rawData.map(r => r.cgpa).filter(v => v !== null);
+let cgpaList = rawData.map(r => r.cgpa).filter(v => v !== null);
 let pressList = rawData.map(r => r.press).filter(v => v !== null);
 
 // ── CGPA-statistik ─────────────────────────────────────────────────────────
 
-let cgpaMean   = s.mean(cgpaList);
+let cgpaMean = s.mean(cgpaList);
 let cgpaMedian = s.median(cgpaList);
 let cgpaStdDev = s.standardDeviation(cgpaList);
 
@@ -53,7 +53,7 @@ addMdToPage(`
 | Standardavvikelse | ${cgpaStdDev.toFixed(2)} |
 
 Medelvärde och median ligger nära varandra (${cgpaMean.toFixed(2)} vs ${cgpaMedian.toFixed(2)}),
-vilket tyder på en relativt symmetrisk fördelning av CGPA.
+vilket tyder på en hyfsat symmetrisk fördelning av CGPA.
 `);
 
 // ── CGPA-histogram ─────────────────────────────────────────────────────────
@@ -86,25 +86,25 @@ drawGoogleChart({
 
 // ── Shapiro-Wilk normalfördelningstest för CGPA ────────────────────────────
 
-// Shapiro-Wilk kräver max ~5000 värden, ta ett slumpmässigt urval om 500
+// Shapiro-Wilk ska vara max ~5000 värden, ta ett slumpmässigt urval på 500
 let cgpaSample = cgpaList.sort(() => Math.random() - 0.5).slice(0, 500);
 let swCgpa = stdLib.stats.shapiroWilkTest(cgpaSample);
 
 addMdToPage(`
-### Shapiro-Wilk-test: är CGPA normalfördelad?
+### Shapiro-Wilk-test: CGPA normalfördelad?
 
 | | Värde |
 |---|---|
 | p-värde | ${swCgpa.p.toFixed(4)} |
 
 ${swCgpa.p > 0.05
-  ? 'p > 0.05 → vi kan *inte* förkasta nollhypotesen om normalfördelning. CGPA verkar vara normalfördelad.'
-  : 'p ≤ 0.05 → vi förkastar nollhypotesen. CGPA är *inte* normalfördelad.'}
+    ? 'p > 0.05 → vi kan *inte* förkasta nollhypotesen om normalfördelning. CGPA verkar normalfördelad.'
+    : 'p ≤ 0.05 → vi förkastar nollhypotesen. CGPA är *inte* normalfördelad.'}
 `);
 
 // ── Akademisk press – statistik ────────────────────────────────────────────
 
-let pressMean   = s.mean(pressList);
+let pressMean = s.mean(pressList);
 let pressMedian = s.median(pressList);
 let pressStdDev = s.standardDeviation(pressList);
 
@@ -128,13 +128,13 @@ deprimerade och ej deprimerade studenter.
 
 **H₁ (mothypotesen):** Deprimerade studenter upplever högre akademisk press.
 
-Vi testar detta med ett tvåsidigt t-test för oberoende stickprov via stdLib.
+Vi testar med ett tvåsidigt t-test för oberoende stickprov via stdLib.
 `);
 
-let depressedPress    = rawData.filter(r => r.deprimerad === 1).map(r => r.press).filter(v => v !== null);
+let depressedPress = rawData.filter(r => r.deprimerad === 1).map(r => r.press).filter(v => v !== null);
 let notDepressedPress = rawData.filter(r => r.deprimerad === 0).map(r => r.press).filter(v => v !== null);
 
-let tTest  = stdLib.stats.ttest2(depressedPress, notDepressedPress);
+let tTest = stdLib.stats.ttest2(depressedPress, notDepressedPress);
 let pValue = tTest.pValue;
 
 addMdToPage(`
@@ -146,8 +146,8 @@ addMdToPage(`
 **p-värde:** ${pValue.toFixed(6)}
 
 ${pValue < 0.05
-  ? 'p < 0.05 → vi förkastar nollhypotesen. Skillnaden i akademisk press mellan grupperna är statistiskt signifikant.'
-  : 'p ≥ 0.05 → vi kan inte förkasta nollhypotesen. Ingen statistiskt signifikant skillnad hittades.'}
+    ? 'p < 0.05 → förkastar nollhypotesen. Skillnaden i akademisk press mellan grupperna är statistiskt signifikant.'
+    : 'p ≥ 0.05 → går inte förkasta nollhypotesen. Ingen statistiskt signifikant skillnad hittades.'}
 `);
 
 // ── Korrelation: sömn och depression ──────────────────────────────────────
@@ -155,7 +155,7 @@ ${pValue < 0.05
 addMdToPage(`
 ### Korrelation: sömntimmar och depression
 
-Vi omvandlar Sleep Duration till numeriska värden och beräknar
+Ändrar Sleep Duration till numeriska värden och räknar
 Pearsons korrelationskoefficient mot Depression.
 `);
 
@@ -165,7 +165,7 @@ let sleepRaw = await dbQuery(`
   WHERE [Sleep Duration] != ''
 `);
 
-let sleepNumbers   = sleepRaw.map(r => sleepToNumber(r.sömn)).filter(v => v !== null);
+let sleepNumbers = sleepRaw.map(r => sleepToNumber(r.sömn)).filter(v => v !== null);
 let depressionNums = sleepRaw
   .filter(r => sleepToNumber(r.sömn) !== null)
   .map(r => r.deprimerad);
@@ -175,9 +175,8 @@ let sleepCorrelation = s.sampleCorrelation(sleepNumbers, depressionNums);
 addMdToPage(`
 **Pearsons r (sömn ↔ depression):** ${sleepCorrelation.toFixed(4)}
 
-Korrelationsvärdet visar ${
-  Math.abs(sleepCorrelation) < 0.1 ? 'ett mycket svagt' :
-  Math.abs(sleepCorrelation) < 0.3 ? 'ett svagt' :
-  Math.abs(sleepCorrelation) < 0.5 ? 'ett måttligt' : 'ett starkt'
-} samband. ${sleepCorrelation < 0 ? 'Negativt tecken innebär att mer sömn är kopplat till lägre depressionsfrekvens.' : ''}
+Korrelationsvärdet visar ${Math.abs(sleepCorrelation) < 0.1 ? 'väldigt svagt' :
+    Math.abs(sleepCorrelation) < 0.3 ? 'svagt' :
+      Math.abs(sleepCorrelation) < 0.5 ? 'måttligt' : 'starkt'
+  } samband. ${sleepCorrelation < 0 ? 'Negativt tecken innebär att mer sömn är kopplat till lägre depressionsfrekvens.' : ''}
 `);
