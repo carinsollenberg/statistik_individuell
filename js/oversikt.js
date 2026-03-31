@@ -90,7 +90,8 @@ drawGoogleChart({
     titleTextStyle: { color: '#0E103D', fontName: 'Inter', fontSize: 16 },
     title: 'Procent deppiga vs glada',
     chartArea: { left: 20, right: 20, top: 40, bottom: 20 },
-    colors: ['#E06C9F', '#2EC4B6']
+    colors: ['#E06C9F', '#2EC4B6'],
+    pieHole: 0.4, // donut-chart
   }
 });
 

@@ -151,3 +151,133 @@ drawGoogleChart({
     pointSize: 6
   }
 });
+
+/* ── Ålder vs Depression ───────────────────────────── */
+
+addMdToPage(`### Ålder vs depression`);
+
+let ageDepression = await dbQuery(`
+  SELECT
+    CASE
+      WHEN CAST(Age AS INTEGER) BETWEEN 15 AND 21 THEN '15–21'
+      WHEN CAST(Age AS INTEGER) BETWEEN 22 AND 25 THEN '22–25'
+      WHEN CAST(Age AS INTEGER) BETWEEN 26 AND 30 THEN '26–30'
+      WHEN CAST(Age AS INTEGER) > 30 THEN '30+'
+      ELSE 'Okänd'
+    END AS åldersgrupp,
+    ROUND(100.0 * SUM(CAST(Depression AS INTEGER)) / COUNT(*), 1) AS dep_procent
+  FROM students
+  WHERE CAST(Age AS INTEGER) BETWEEN 15 AND 60
+  GROUP BY åldersgrupp
+  ORDER BY MIN(CAST(Age AS INTEGER))
+`);
+
+let ageChartData = [
+  ['Åldersgrupp', 'Andel deprimerade (%)', { role: 'annotation' }],
+  ...ageDepression.map(r => [r.åldersgrupp, r.dep_procent, r.dep_procent + '%'])
+];
+
+drawGoogleChart({
+  type: 'ColumnChart',
+  data: ageChartData,
+  options: {
+    height: 400,
+    backgroundColor: 'transparent',
+    title: 'Andel deprimerade (%) per åldersgrupp',
+    titleTextStyle: { color: '#0E103D', fontName: 'Inter', fontSize: 16, bold: true },
+    legend: { position: 'none' },
+    bar: { groupWidth: '55%' },
+    hAxis: {
+      title: 'Åldersgrupp',
+      titleTextStyle: { color: '#7A6570', fontName: 'Inter', fontSize: 12 },
+      textStyle: { color: '#5F5E5A', fontName: 'Inter', fontSize: 13 },
+      gridlines: { color: 'transparent' },
+      baselineColor: '#D3D1C7'
+    },
+    vAxis: {
+      title: 'Andel deprimerade (%)',
+      titleTextStyle: { color: '#7A6570', fontName: 'Inter', fontSize: 12 },
+      textStyle: { color: '#888780', fontName: 'Inter', fontSize: 12 },
+      minValue: 0,
+      maxValue: 100,
+      gridlines: { color: '#E8E6DF', count: 6 },
+      baselineColor: '#D3D1C7'
+    },
+    colors: ['#7F77DD'],
+    chartArea: { left: 70, right: 20, top: 60, bottom: 60 },
+    annotations: {
+      alwaysOutside: true,
+      textStyle: { fontSize: 13, bold: true, color: '#3C3489', fontName: 'Inter' },
+      stem: { color: 'transparent', length: 4 }
+    }
+  }
+});
+
+addMdToPage(`*Filtrerade bort åldrar utanför intervallet 15–60 för att undvika orimliga värden.*`);
+/* ── Kön vs Depression ─────────────────────────────── */
+
+addMdToPage(`### Könsfördelning bland deprimerade`);
+
+let genderDepressed = await dbQuery(`
+  SELECT 
+    Gender AS kön, 
+    ROUND(100.0 * COUNT(*) / SUM(COUNT(*)) OVER (), 1) AS procent
+  FROM students
+  WHERE CAST(Depression AS INTEGER) = 1
+  GROUP BY Gender
+  ORDER BY procent DESC
+`);
+
+let genderDepressedData = [
+  ['Kön', 'Andel (%)', { role: 'annotation' }],
+  ...genderDepressed.map(r => [r.kön, r.procent, r.procent + '%'])
+];
+
+drawGoogleChart({
+  type: 'ColumnChart',
+  data: genderDepressedData,
+  options: {
+    height: 400,
+    backgroundColor: 'transparent',
+
+    title: 'Män vs kvinnor bland deprimerade',
+    fontName: 'Inter',
+
+    titleTextStyle: {
+      color: '#0E103D',
+      fontSize: 16,
+      bold: true
+    },
+
+    legend: { position: 'none' },
+    bar: { groupWidth: '35%' },
+
+    hAxis: {
+      title: 'Kön',
+      titleTextStyle: { color: '#7A6570', fontName: 'Inter', fontSize: 12 },
+      textStyle: { color: '#5F5E5A', fontName: 'Inter', fontSize: 14 },
+      gridlines: { color: 'transparent' },
+      baselineColor: '#D3D1C7'
+    },
+
+    vAxis: {
+      title: 'Andel (%)',
+      titleTextStyle: { color: '#7A6570', fontName: 'Inter', fontSize: 12 },
+      textStyle: { color: '#888780', fontName: 'Inter', fontSize: 12 },
+      minValue: 0,
+      maxValue: 100,
+      gridlines: { color: '#E8E6DF', count: 6 },
+      baselineColor: '#D3D1C7'
+    },
+
+    colors: ['#8E3A8C'],
+
+    chartArea: { left: 70, right: 20, top: 60, bottom: 60 },
+
+    annotations: {
+      alwaysOutside: true,
+      textStyle: { fontSize: 14, bold: true, color: '#8E3A8C', fontName: 'Inter' },
+      stem: { color: 'transparent', length: 4 }
+    }
+  }
+});
