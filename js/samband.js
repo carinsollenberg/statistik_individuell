@@ -75,6 +75,13 @@ let sleepData = await dbQuery(`
     ROUND(100.0 * SUM(CAST(Depression AS INTEGER)) / COUNT(*), 1) AS procent
   FROM students
   GROUP BY [Sleep Duration]
+  ORDER BY MIN(CASE
+    WHEN [Sleep Duration] LIKE '%less than 5%' THEN 1
+    WHEN [Sleep Duration] LIKE '%5-6%' THEN 2
+    WHEN [Sleep Duration] LIKE '%7-8%' THEN 3
+    WHEN [Sleep Duration] LIKE '%more than 8%' THEN 4
+   WHEN [Sleep Duration] LIKE '%Others%' THEN 5
+  END)
 `);
 
 sleepData = sleepData.map(r => ({

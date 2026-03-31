@@ -66,6 +66,29 @@ body .navbar .navbar-brand:hover {
   color: var(--accent) !important;
 }
 
+/* ── Hamburger Menu Fix ── */
+body .navbar .navbar-toggler {
+  border: none;
+}
+
+body .navbar .navbar-toggler-icon {
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 30 30' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath stroke='rgba(255,255,255,0.7)' stroke-width='2' stroke-linecap='round' stroke-miterlimit='10' d='M4 7h22M4 15h22M4 23h22'/%3E%3C/svg%3E");
+  transition: all 0.2s ease;
+}
+
+body .navbar .navbar-toggler:hover .navbar-toggler-icon,
+body .navbar .navbar-toggler:focus .navbar-toggler-icon {
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 30 30' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath stroke='%23E06C9F' stroke-width='2' stroke-linecap='round' stroke-miterlimit='10' d='M4 7h22M4 15h22M4 23h22'/%3E%3C/svg%3E");
+}
+
+body .navbar .navbar-toggler:not(.collapsed) .navbar-toggler-icon {
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 30 30' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath stroke='%23E06C9F' stroke-width='2' stroke-linecap='round' stroke-miterlimit='10' d='M4 7h22M4 15h22M4 23h22'/%3E%3C/svg%3E");
+}
+
+body .navbar .navbar-toggler:hover {
+  background-color: rgba(255, 255, 255, 0.05);
+}
+
 /* ── Layout ── */
 .container,
 .container-fluid {
@@ -75,6 +98,20 @@ body .navbar .navbar-brand:hover {
 /* ── Cards ── */
 .card,
 .stat-card,
+div[class^="chart-"] {
+  background: var(--bg-card);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+  border: 1px solid var(--border);
+  margin: 1.2rem 0 1.8rem;
+  transition: all 0.2s ease;
+}
+
+div[class^="chart-"] {
+  padding-top: 16px;
+  padding-bottom: 16px;
+}
+
 table {
   background: var(--bg-card);
   border-radius: var(--radius);
@@ -83,7 +120,6 @@ table {
   margin: 1.2rem 0 1.8rem;
   transition: all 0.2s ease;
   overflow: hidden;
-  /* 🔥 fixar att charts inte "läcker ut" */
 }
 
 .card:hover,
@@ -206,9 +242,7 @@ hr {
   margin: 2.5rem 0;
 }
 
-/* ── Charts FIX ───────────────────────────── */
-
-/* 🔥 Neutralisera Google Charts wrapper (utan att påverka allt annat) */
+/* ── Charts FIX ── */
 .card>div[style*="position: relative"] {
   background: transparent !important;
   border: none !important;
@@ -217,12 +251,14 @@ hr {
   margin: 0 !important;
 }
 
-/* 🔥 Säker spacing runt graf */
 .chart-container {
   padding: 16px;
 }
 
-/* 🔥 Gör att canvas/svg fyller snyggt */
 .chart-container>div {
   width: 100% !important;
+}
+
+.navbar-toggler:focus {
+  outline: none !important;
 }
