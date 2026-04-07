@@ -35,7 +35,7 @@ addMdToPage(`
 **Slutsats:**  
 Studenter med **${highestF.familjehistorik}** har högst andel depression (${highestF.procent}%),  
 jämfört med **${lowestF.familjehistorik}** (${lowestF.procent}%).  
-Detta tyder på att familjehistorik kan vara en viktig riskfaktor.
+Detta tyder på att familjehistorik en en stark riskfaktor för depression. Du har ärvt din morfars depression.
 `);
 
 drawGoogleChart({
@@ -77,7 +77,7 @@ addMdToPage(`
 **Slutsats:**  
 Högst andel depression finns bland studenter med **${worstDiet.kostvanor} (${worstDiet.procent}%)**,  
 medan lägst nivå finns hos **${bestDiet.kostvanor} (${bestDiet.procent}%)**.  
-Detta indikerar att kostvanor kan ha ett samband med psykisk hälsa.
+Detta indikerar att kostvanor tycks ha ett mycket starkt samband med psykisk hälsa. Det är svårt att göra något åt ärftlighet, men du måste ju i alla fall inte äta exakt det din deprimerade morfar åt.
 `);
 
 drawGoogleChart({
