@@ -276,8 +276,7 @@ addMdToPage(`
 - Störst andel: **${topGender.kön} (${topGender.procent}%)**
 
 ### Tolkning
-Skillnader mellan kön kan bero på sociala, psykologiska eller biologiska faktorer, 
-men kräver djupare analys för att förstå fullt ut.
+Det är en övervägande del män som är deprimerade. Men det är förvisso en övervägande andel män som svarat på enkäten också. Kanske är könsfördelningen av depression rättvis.
 `);
 
 let genderDepressedData = [
