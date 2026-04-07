@@ -35,7 +35,7 @@ addMdToPage(`
 **Slutsats:**  
 Studenter med **${highestF.familjehistorik}** har högst andel depression (${highestF.procent}%),  
 jämfört med **${lowestF.familjehistorik}** (${lowestF.procent}%).  
-Detta tyder på att familjehistorik en en stark riskfaktor för depression. Du har ärvt din morfars depression.
+Detta tyder på att familjehistorik en riskfaktor för depression. Du har ärvt din morfars depression.
 `);
 
 drawGoogleChart({
